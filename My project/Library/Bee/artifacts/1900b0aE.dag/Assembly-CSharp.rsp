@@ -366,13 +366,7 @@
 "Assets/Joystick Pack/Scripts/Joysticks/FixedJoystick.cs"
 "Assets/Joystick Pack/Scripts/Joysticks/FloatingJoystick.cs"
 "Assets/Joystick Pack/Scripts/Joysticks/VariableJoystick.cs"
-"Assets/Scripts/FixedButton.cs"
-"Assets/Scripts/FixedTouchField.cs"
-"Assets/Scripts/OwnThirdPersonController.cs"
-"Assets/Yurowm/Demo/Scripts/Actions.cs"
-"Assets/Yurowm/Demo/Scripts/CharacterPanel.cs"
-"Assets/Yurowm/Demo/Scripts/CharacterViewer.cs"
-"Assets/Yurowm/Demo/Scripts/PlayerController.cs"
+"Assets/Scripts/PlayerMove.cs"
 -langversion:9.0
 
 /deterministic
