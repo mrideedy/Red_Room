@@ -16,6 +16,11 @@ public class PlayerMove : MonoBehaviour
     private float halfOfScreenWidth;
     private Vector2 lookInput;
     private bool isOnScreen;
+
+    Inventory inventory;
+    int currentCount;
+    public GameObject FireCanvas;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -48,6 +53,7 @@ public class PlayerMove : MonoBehaviour
         // horizontal (yaw) rotation
         transform.Rotate(transform.up, lookInput.x);
     }
+
 
     public void GetTouchInput()
     {
@@ -85,4 +91,29 @@ public class PlayerMove : MonoBehaviour
           }
         
     }
+
+     void OnTriggerEnter(Collider col)
+    {
+        Debug.Log(col.gameObject.name);
+        if(col.gameObject.tag == "Heart")
+        {
+            Item item = new Item();
+            item.itemType = ItemType.Heart;
+            Inventory.instance.AddItem(item);
+            currentCount = Inventory.instance.InventoryItem.Count;
+            //InventoryCountText.instance.Log("Item added to inventory. Count: " + currentCount);
+            InventoryCountText.instance.UpdateInventoryCount(currentCount);
+            Debug.Log(Inventory.instance.InventoryItem.Count);
+            Destroy(col.gameObject);
+            Debug.Log("goball");
+        }
+        if(col.gameObject.tag == "Fire")
+        {
+            if(currentCount == 3)
+            {
+                FireCanvas.SetActive(true);
+            }
+        }
+    }
 }
+
