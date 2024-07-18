@@ -1,64 +1,61 @@
+//FOLLOWPLAYER
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
-
 public class FollowPlayer : MonoBehaviour
 {
+    public NavMeshAgent ai;
+    public List<Transform> destinations;
+    public Animator aiAnim;
+    public float walkSpeed, chaseSpeed, idleTime, minIdleTime, maxIdleTime;
+    public bool walking, chasing;
     public Transform player;
-    public float patrolRange = 10f;
-    public float chaseRange = 5f;
+    Transform currentDest;
+    Vector3 dest;
+    int randNum, randNum2, randNum3;
+    public int destinationAmount;
 
-    private NavMeshAgent agent;
-    private Vector3 patrolPosition;
-    private bool isChasing = false;
-
-    void Start()
+    private void Start()
     {
-        agent = GetComponent<NavMeshAgent>();
-        patrolPosition = transform.position;
+        walking = true;
+        randNum = Random.Range(0, destinationAmount);
+        currentDest = destinations[randNum];
     }
-
-    void Update()
+    private void Update()
     {
-        float distanceToPlayer = Vector3.Distance(transform.position, player.position);
-
-        if (distanceToPlayer <= chaseRange)
+        if (walking == true)
         {
-            ChasePlayer();
-        }
-        else if (isChasing && distanceToPlayer > patrolRange)
-        {
-            StopChasing();
-        }
-        else if (!isChasing && distanceToPlayer > patrolRange)
-        {
-            Patrol();
-        }
-    }
-
-    void Patrol()
-    {
-        if (agent.remainingDistance <= agent.stoppingDistance)
-        {
-            Vector3 randomPoint = Random.insideUnitSphere * patrolRange;
-            randomPoint += patrolPosition;
-            NavMeshHit hit;
-            NavMesh.SamplePosition(randomPoint, out hit, patrolRange, 1);
-            Vector3 targetPosition = hit.position;
-            agent.SetDestination(targetPosition);
+            dest = currentDest.position;
+            ai.destination = dest;
+            ai.speed = walkSpeed;
+            if (ai.remainingDistance <= ai.stoppingDistance)
+            {
+                randNum2 = Random.Range(0, 2);
+                if (randNum2 == 0)
+                {
+                    randNum = Random.Range(0, destinationAmount);
+                    currentDest = destinations[randNum];
+                }
+                if (randNum2 == 1)
+                {
+                    aiAnim.ResetTrigger("walk");
+                    aiAnim.SetTrigger("idle");
+                    StopCoroutine("stayIdle");
+                    StartCoroutine("stayIdle");
+                    walking = false;
+                }
+            }
         }
     }
-
-    void ChasePlayer()
+    IEnumerator stayIdle()
     {
-        agent.SetDestination(player.position);
-        isChasing = true;
-    }
-
-    void StopChasing()
-    {
-        agent.SetDestination(patrolPosition);
-        isChasing = false;
+        idleTime = Random.Range(minIdleTime, maxIdleTime);
+        yield return new WaitForSeconds(idleTime);
+        walking = true;
+        randNum = Random.Range(0, destinationAmount);
+        currentDest = destinations[randNum];
+        aiAnim.ResetTrigger("idle");
+        aiAnim.SetTrigger("walk");
     }
 }
