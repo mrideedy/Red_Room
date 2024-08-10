@@ -370,6 +370,7 @@
 "Assets/Joystick Pack/Scripts/Joysticks/FixedJoystick.cs"
 "Assets/Joystick Pack/Scripts/Joysticks/FloatingJoystick.cs"
 "Assets/Joystick Pack/Scripts/Joysticks/VariableJoystick.cs"
+"Assets/Scripts/CameraRotation.cs"
 "Assets/Scripts/FlashLightGrabber.cs"
 "Assets/Scripts/FollowPlayer.cs"
 "Assets/Scripts/Inventory/Inventory.cs"
