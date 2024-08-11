@@ -1588,6 +1588,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 1901574044}
   rotationSpeed: 0.2
+  minVerticalAngle: -60
+  maxVerticalAngle: 60
 --- !u!1 &1103155882
 GameObject:
   m_ObjectHideFlags: 0

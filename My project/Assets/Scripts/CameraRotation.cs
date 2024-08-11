@@ -9,6 +9,9 @@ public class CameraRotation : MonoBehaviour
     private Vector2 startTouchPosition;
     private Vector2 currentTouchPosition;
     private bool isHorizontalRotation;
+    public float minVerticalAngle = -60f; // Minimum vertical angle (looking down)
+    public float maxVerticalAngle = 60f;  // Maximum vertical angle (looking up)
+    private float currentXRotation = 0f;
 
     private void Update()
     {
@@ -51,9 +54,16 @@ public class CameraRotation : MonoBehaviour
                     }
                     else
                     {
+
+
+                        float rotationX = touchDelta.y * rotationSpeed;
+                        currentXRotation -= rotationX;  // Subtract to invert the control (up is up, down is down)
+                        currentXRotation = Mathf.Clamp(currentXRotation, minVerticalAngle, maxVerticalAngle);
+
+                        // Apply the clamped rotation to the camera
+                        transform.localEulerAngles = new Vector3(currentXRotation, transform.localEulerAngles.y, 0);
                         // Vertical rotation (up-down)
-                        float rotationX = -touchDelta.y * rotationSpeed;
-                        transform.Rotate(rotationX, 0, 0, Space.Self);
+
                     }
 
                     // Update the start position for the next frame
