@@ -47,7 +47,7 @@ public class CameraRotation : MonoBehaviour
                     if (isHorizontalRotation)
                     {
                         // Horizontal rotation (left-right)
-                        float rotationY = -touchDelta.x * rotationSpeed;
+                        float rotationY = touchDelta.x * rotationSpeed;
                         transform.Rotate(0, rotationY, 0, Space.World);
                         player.Rotate(0, rotationY, 0,Space.World);
 
