@@ -3,12 +3,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.SceneManagement;
 public class FollowPlayer : MonoBehaviour
 {
     public NavMeshAgent ai;
     public List<Transform> destinations;
     public Animator aiAnim;
-    public float walkSpeed, chaseSpeed, idleTime, minIdleTime, maxIdleTime, sightDistance;
+    public float walkSpeed, chaseSpeed, idleTime, minIdleTime, maxIdleTime, sightDistance, catchDistance, chaseTime, minChaseTime, maxChaseTime, jumpscareTime;
     public bool walking, chasing;
     public Transform player;
     Transform currentDest;
@@ -16,6 +17,7 @@ public class FollowPlayer : MonoBehaviour
     int randNum, randNum2, randNum3;
     public int destinationAmount;
     public Vector3 rayCastOffset;
+    public string deathScene;
 
      void Start()
     {
@@ -46,10 +48,14 @@ public class FollowPlayer : MonoBehaviour
         {
             dest = player.position;
             ai.destination = dest;
-            ai.speed = walkSpeed;
-            if(ai.remainingDistance <= ai.stoppingDistance)
+            ai.speed = chaseSpeed;
+            if(ai.remainingDistance <= catchDistance)
             {
-                randNum2 = Random.Ran
+                player.gameObject.SetActive(false);
+                aiAnim.ResetTrigger("sprint");
+                aiAnim.SetTrigger("jumpscare");
+                StartCoroutine(deathRoutine());
+                chasing = false;
             }
         }
         if (walking == true)
@@ -85,5 +91,22 @@ public class FollowPlayer : MonoBehaviour
         currentDest = destinations[randNum];
         aiAnim.ResetTrigger("idle");
         aiAnim.SetTrigger("walk");
+    }
+    IEnumerator chaseRoutine()
+    {
+        chaseTime = Random.Range(minChaseTime, maxChaseTime);
+        yield return new WaitForSeconds(chaseTime);
+        walking = true;
+        chasing = false;
+        randNum = Random.Range(0, destinationAmount);
+        currentDest = destinations[randNum];
+        aiAnim.ResetTrigger("sprint");
+        aiAnim.SetTrigger("walk");
+    }
+
+    IEnumerator deathRoutine()
+    {
+        yield return new WaitForSeconds(jumpscareTime);
+        SceneManager.LoadScene(deathScene);
     }
 }
