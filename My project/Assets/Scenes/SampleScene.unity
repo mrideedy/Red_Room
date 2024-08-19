@@ -741,22 +741,14 @@ MonoBehaviour:
   - {fileID: 231914776}
   aiAnim: {fileID: 0}
   walkSpeed: 2
-  chaseSpeed: 5
-  minIdleTime: 1
-  maxIdleTime: 8
-  idleTime: 0
-  sightDistance: 15
-  catchDistance: 3
-  chaseTime: 1
-  minChaseTime: 10
-  maxChaseTime: 25
-  jumpscareTime: 3
+  chaseSpeed: 6
+  idleTime: 1
+  minIdleTime: 2
+  maxIdleTime: 9
   walking: 0
   chasing: 0
   player: {fileID: 1901574044}
-  destinationAmount: 20
-  rayCastOffset: {x: 0, y: 0, z: 0}
-  deathScene: SampleScene
+  destinationAmount: 11
 --- !u!195 &534826613
 NavMeshAgent:
   m_ObjectHideFlags: 0
